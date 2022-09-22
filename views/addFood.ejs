@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Food here</title>
+  </head>
+  <body>
+    <h1>Add a food object here</h1>
+    <form action="/restaurants/<%=findRest._id %>/addFood" method="post">
+      <label for="name">Food Name</label><br />
+      <input type="text" id="fname" name="name" /><br />
+      <label for="price">Price</label><br />
+      <input type="number" id="fprice" name="price" /><br />
+      <label for="cuisine">Cuisine</label><br />
+      <input type="text" id="Cuisine" name="cuisine" /><br />
+      <button>submit</button>
+    </form>
+  </body>
+</html>

@@ -24,7 +24,7 @@ const restaurantSchema = new Schema({
   foods: [
     {
       type: Schema.Types.ObjectId,
-      ref: "food",
+      ref: "Food",
     },
   ],
 });

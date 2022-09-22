@@ -7,6 +7,21 @@
     <title>Show Page</title>
   </head>
   <body>
-    <h1>Here is the show page</h1>
+    <h3>Name: <%=findRest.name%></h3>
+    <h3>Location: <%=findRest.location%></h3>
+    <h3>Speciality: <%=findRest.speciality %></h3>
+    <h3>Rating: <%=findRest.rating %></h3>
+    <%for (const selection in findRest.foods){%>
+    <h3>Food Name:<%=findRest.foods[selection].name %></h3>
+    <h3>Food Price:<%=findRest.foods[selection].price %></h3>
+    <%} %>
+
+    <form action="/restaurants/<%=findRest._id%>/edit">
+      <button>Edit Restaurant</button>
+    </form>
+
+    <form action="/restaurants/<%=findRest._id%>/addFood">
+      <button>addFood</button>
+    </form>
   </body>
 </html>
