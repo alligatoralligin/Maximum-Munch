@@ -4,9 +4,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
     <title>Add Food here</title>
   </head>
   <body>
+    <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
     <h1>Add a food object here</h1>
     <form action="/restaurants/<%=findRest._id %>/addFood" method="post">
       <label for="name">Food Name</label><br />
@@ -15,6 +17,8 @@
       <input type="number" id="fprice" name="price" /><br />
       <label for="cuisine">Cuisine</label><br />
       <input type="text" id="Cuisine" name="cuisine" /><br />
+      <label for="foodPhoto">Add photo here</label><br />
+      <input type="text" id="foodPhoto" name="foodPhoto" /><br />
       <button>submit</button>
     </form>
   </body>

@@ -20,6 +20,7 @@ const foodSchema = new Schema({
     ],
   },
   Restaurant: String,
+  foodPhoto: String,
 });
 
 const Food = mongoose.model("Food", foodSchema);

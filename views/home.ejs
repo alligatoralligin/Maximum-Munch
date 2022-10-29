@@ -1,12 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home page template</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Show Page</title>
+<link rel="stylesheet" href="/stylesheets/homePage.css" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+  integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+  crossorigin="anonymous"
+/>
+<head>
   </head>
   <body>
-    <h1>testing</h1>
+    <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
+     <div class="container">
+    <div class="card border-primary">
+  <div class="card-header">Welcome to MaximumMunch</div>
+  <div class="card-body text-primary">
+    <form action="/index"><button type="button" class="btn btn-dark btn-sm" >Browse from many of our food options</button></form>
+    <form action=""><button type="button" class="btn btn-dark btn-sm">Restaurants owner can manage their options here</button></form>
+  </div>
+  </div>
+  </div>
   </body>
 </html>
