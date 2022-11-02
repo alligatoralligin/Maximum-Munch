@@ -1,3 +1,4 @@
+const options = { discrimnatorKey: "kind" };
 const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
@@ -19,3 +20,17 @@ const userSchema = new Schema({
 userSchema.plugin(passportLocalMongoose);
 const User = mongoose.model("User", userSchema);
 module.exports.user = User;
+
+const restOwner = User.discriminator(
+  "restaurantOwner",
+  new mongoose.Schema({ Owner: Boolean })
+);
+
+module.exports.restOwner = restOwner;
+
+const customer = User.discriminator(
+  "customer",
+  new mongoose.Schema({ customer: Boolean })
+);
+
+module.exports.customer = customer;

@@ -11,32 +11,16 @@
     <h3>Speciality: <%=findRest.speciality %></h3>
     <h3>Rating: <%=findRest.rating %></h3>
     <%for (const selection in findRest.foods){%>
-    <form
-      method="POST"
-      action="/restaurants/<%=findRest.id%>/foods/<%=findRest.foods[selection]._id%>?_method=DELETE"
-    >
+    <form method="POST" action="/foodCart/<%=findRest.foods[selection]._id%>">
       <h3>
         Food Name:<%=findRest.foods[selection].name%>&ensp;&ensp;Food
         Price:<%=findRest.foods[selection].price %>
         <img src="<%=findRest.foods[selection].foodPhoto%>" alt="Sushi Photo" />
       </h3>
-      <button>Delete</button>
-    </form>
-    <form
-      action="/restaurants/<%=findRest.id%>/editFood/<%=findRest.foods[selection]._id%>"
-    >
-      <button>edit</button>
+      <button>add to cart</button>
     </form>
     <%} %>
     <br />
-    <form action="/restaurants/<%=findRest._id%>/edit">
-      <button>Edit Restaurant</button>
-    </form>
-
-    <form action="/restaurants/<%=findRest._id%>/addFood">
-      <button>addFood</button>
-    </form>
-
     <form action="/index"><button>Back to Index</button></form>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

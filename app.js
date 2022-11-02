@@ -3,7 +3,7 @@ const path = require("path");
 const { restaurant } = require("./Schemas/restaurantSchema");
 const mongoose = require("mongoose");
 const { food } = require("./Schemas/foodSchema");
-const { user } = require("./Schemas/userSchema");
+const { user, customer, restOwner } = require("./Schemas/userSchema");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const session = require("express-session");
@@ -92,9 +92,13 @@ app.get("/restaurants/:id", async (req, res) => {
   if (findRest.foods.length > 0) {
     const foodList = await findRest.populate("foods");
   }
-  res.render("showPage.ejs", { findRest });
+  res.render("userShowPage.ejs", { findRest });
 });
 
+app.get("/myRestaurantPage/:id", async (req, res) => {
+  const findRest = await restaurant.findById(req.params.id);
+  res.render("ownerShowPage.ejs", { findRest });
+});
 app.get("/restaurants/:id/edit", async (req, res) => {
   const findRest = await restaurant.findById(req.params.id);
   res.render("editPage.ejs", { findRest });
@@ -177,7 +181,16 @@ app.post("/register", async (req, res) => {
   console.log("user registered");
   res.send("new account created");
 });
-
+app.post("/foodCart/:id", isLoggedin, async (req, res) => {
+  if (!req.session.cart) {
+    req.session.cart = [];
+  }
+  if (req.session.cart.includes(req.params.id) === false) {
+    req.session.cart.push(req.params.id);
+  }
+  console.log(req.session.cart);
+  res.send("you have reached the post route");
+});
 app.get("/login", async (req, res) => {
   req.session.views = 1;
   res.render("loginPage.ejs");
