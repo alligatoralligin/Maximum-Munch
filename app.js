@@ -10,6 +10,7 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const isLoggedin = require("./Middleware/isLoggedin.js");
+const isOwner = require("./Middleware/isOwner.js");
 const app = express();
 const engine = require("ejs-mate");
 const jsonParser = bodyParser.json();
@@ -77,13 +78,13 @@ app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
-app.get("/home", function (req, res) {
+app.get("/home", isOwner, function (req, res) {
   res.render("home.ejs");
 });
 
 app.get("/index", async (req, res) => {
   const restaurants = await restaurant.find({});
-  console.log(restaurants);
+  // console.log(restaurants);
   res.render("index.ejs", { restaurants });
 });
 
@@ -95,7 +96,11 @@ app.get("/restaurants/:id", async (req, res) => {
   res.render("userShowPage.ejs", { findRest });
 });
 
-app.get("/myRestaurantPage/:id", async (req, res) => {
+app.get("/myRestaurantPage/:id", isLoggedin, async (req, res) => {
+  if (!req.session.owner) {
+    retures.redirect("/login");
+    console.log("not a restaurant owner account");
+  }
   const findRest = await restaurant.findById(req.params.id);
   res.render("ownerShowPage.ejs", { findRest });
 });
@@ -181,6 +186,43 @@ app.post("/register", async (req, res) => {
   console.log("user registered");
   res.send("new account created");
 });
+app.get("/registerOwner", async (req, res) => {
+  res.render("newOwner.ejs");
+});
+
+app.post("/registerOwner", async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  restOwner.register(
+    new restOwner({ username: req.body.username, Owner: true }),
+    password,
+    function (err) {
+      if (err) {
+        console.log("error while user register!", err);
+        return next(err);
+      }
+    }
+  );
+  // const hashPassword = await bcrypt.hash(password, saltRounds);
+  // const newUser = await user.create({
+  //   username: username,
+  //   password: hashPassword,
+  // });
+  // console.log(newUser);
+  console.log("owner registered");
+  res.send("new owner account created");
+});
+
+app.get("/simpleCheck/:id", async (req, res) => {
+  res.render("simpleCheck");
+});
+
+app.post("/simpleCheck/:id", async (req, res) => {
+  const foundUser = await user.findOne({ _id: req.params.id });
+  console.log(foundUser);
+  res.send("foundUser");
+});
+
 app.post("/foodCart/:id", isLoggedin, async (req, res) => {
   if (!req.session.cart) {
     req.session.cart = [];
@@ -205,6 +247,24 @@ app.post(
   passport.authenticate("local", { failureRedirect: "/login" }),
   async (req, res) => {
     console.log("you have logged in");
+    res.redirect("/index");
+  }
+);
+
+app.get("/ownerLogin", async (req, res) => {
+  res.render("ownerLogin.ejs");
+});
+
+app.post(
+  "/ownerLogin",
+  passport.authenticate("local", { failureRedirect: "/ownerLogin" }),
+  async (req, res) => {
+    const foundUser = await user.findOne({ username: req.body.username });
+    if (foundUser.Owner) {
+      req.session.owner = true;
+    }
+    console.log(foundUser);
+    console.log("you have logged in as a restaurant owner!");
     res.redirect("/index");
   }
 );
