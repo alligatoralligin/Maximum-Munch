@@ -5,7 +5,8 @@
   </head>
   <body>
     <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
-    <form action="/ownerLogin" method="post">
+    <form action="/Owner/Login" method="post">
+      <h2>Please Login to the Owner account</h2>
       <label for="username">username</label><br />
       <input type="text" id="username" name="username" /><br />
       <label for="password">password</label><br />
@@ -14,6 +15,9 @@
     </form>
     <form action="http://localhost:3000/index">
       <button>Back to Index</button>
+    </form>
+    <form action="/Owner/Register">
+      <button>Register an owner account here</button>
     </form>
   </body>
 </html>

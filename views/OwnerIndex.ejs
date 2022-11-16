@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index</title>
+    <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
+  </head>
+  <body>
+    <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
+    <h1>Here are all the restaurants</h1>
+    <%for (const restaurant in restaurants){%>
+    <a href="/restaurants/<%=restaurants[restaurant]._id %>"
+      ><%=restaurants[restaurant].name%></a
+    >
+    <br />
+    <% } %>
+  </body>
+</html>

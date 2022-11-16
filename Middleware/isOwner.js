@@ -1,6 +1,6 @@
 function isOwner(req, res, next) {
   if (!req.session.owner) {
-    res.redirect("/ownerLogin");
+    res.redirect("/Owner/login");
   } else {
     return next();
   }
