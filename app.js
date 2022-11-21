@@ -13,6 +13,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const isLoggedin = require("./Middleware/isLoggedin.js");
 const isOwner = require("./Middleware/isOwner.js");
+const flash = require("connect-flash");
 const app = express();
 const engine = require("ejs-mate");
 const jsonParser = bodyParser.json();
@@ -43,6 +44,7 @@ app.use(jsonParser);
 app.use(urlencodedParser);
 
 app.use(session(sess));
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -78,12 +80,18 @@ function wrapperFn(fn) {
 //     };
 //   }
 
+app.get("/flash", function (req, res) {
+  // Set a flash message by passing the key, followed by the value, to req.flash().
+  req.flash("info", "Flash is back!");
+  res.redirect("/");
+});
+
 app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
 app.get("/home", function (req, res) {
-  res.render("home.ejs");
+  res.render("home.ejs", { messages: req.flash("info") });
 });
 
 app.get("/index", async (req, res) => {
@@ -102,7 +110,7 @@ app.get("/index", async (req, res) => {
 
 app.get("/myRestaurantPage/:id", isLoggedin, async (req, res) => {
   if (!req.session.owner) {
-    retures.redirect("/login");
+    res.redirect("/login");
     console.log("not a restaurant owner account");
   }
   const findRest = await restaurant.findById(req.params.id);
@@ -178,6 +186,10 @@ app.post(
   "/login",
   passport.authenticate("local", { failureRedirect: "/login" }),
   async (req, res) => {
+    const foundUser = await user.findOne({ username: req.body.username });
+    if ((foundUser.Owner = true)) {
+      req.session.owner = true;
+    }
     console.log("you have logged in");
     res.redirect("/index");
   }
@@ -266,7 +278,7 @@ app.post("/foodCart/:id", isLoggedin, async (req, res) => {
     req.session.cart.push(req.params.id);
   }
   console.log(req.session.cart);
-  res.send("you have reached the post route");
+  res.status(204).send();
 });
 
 app.get("/secret", isLoggedin, async (req, res, next) => {

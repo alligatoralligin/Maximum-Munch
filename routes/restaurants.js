@@ -3,6 +3,7 @@ const router = express.Router();
 const { restaurant } = require("../Schemas/restaurantSchema");
 const { food } = require("../Schemas/foodSchema");
 const { user, customer, restOwner } = require("../Schemas/userSchema");
+const isOwner = require("../Middleware/isOwner");
 
 function wrapperFn(fn) {
   return function (req, res, next) {
@@ -19,6 +20,7 @@ router.get("/:id", async (req, res) => {
   if (findRest.foods.length > 0) {
     const foodList = await findRest.populate("foods");
   }
+  console.log(req.session.owner);
   res.render("userShowPage.ejs", { findRest });
 });
 

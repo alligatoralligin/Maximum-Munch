@@ -4,6 +4,8 @@ const { restaurant } = require("../Schemas/restaurantSchema");
 const { food } = require("../Schemas/foodSchema");
 const { user, customer, restOwner } = require("../Schemas/userSchema");
 const passport = require("passport");
+const isLoggedin = require("../Middleware/isLoggedin.js");
+const isOwner = require("../Middleware/isOwner.js");
 
 function wrapperFn(fn) {
   return function (req, res, next) {
@@ -18,7 +20,7 @@ function wrapperFn(fn) {
 router.get("/index", async (req, res) => {
   const restaurants = await restaurant.find({});
   // console.log(restaurants);
-  res.render("index.ejs", { restaurants });
+  res.render("owner.ejs", { restaurants });
 });
 
 router.get("/Register", async (req, res) => {
@@ -39,7 +41,7 @@ router.post("/Register", async (req, res) => {
     }
   );
   console.log("owner registered");
-  res.send("new owner account created");
+  res.redirect("/index");
 });
 
 router.get("/Login", async (req, res) => {
@@ -51,13 +53,37 @@ router.post(
   passport.authenticate("local", { failureRedirect: "/Owner/Login" }),
   async (req, res) => {
     const foundUser = await user.findOne({ username: req.body.username });
-    if (foundUser.Owner) {
-      req.session.owner = true;
+    if (!foundUser.Owner) {
+      req.logout(function (err) {
+        if (err) {
+          return next(err);
+        }
+        console.log("You have logged out");
+      });
+      res.redirect("/login");
+    } else {
+      if (foundUser.Owner) {
+        req.session.owner = true;
+        req.session.username = req.body.username;
+      }
+      console.log(foundUser);
+      console.log("you have logged in as a restaurant owner!");
+      res.redirect("/index");
     }
-    console.log(foundUser);
-    console.log("you have logged in as a restaurant owner!");
-    res.redirect("/index");
   }
 );
+
+router.get("/newRestaurant", async (req, res) => {
+  res.render("ownerNewRest.ejs");
+});
+
+router.post("/newRestaurant", isLoggedin, isOwner, async (req, res) => {
+  const targetUser = req.session.username;
+  const foundUser = await user.findOne({ username: targetUser });
+  const createdRestaurant = await restaurant.create(req.body);
+  foundUser.restOwned.push(createdRestaurant._id);
+  console.log(createdRestaurant);
+  res.send("new restaurant created");
+});
 
 module.exports = router;

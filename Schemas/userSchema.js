@@ -23,7 +23,10 @@ module.exports.user = User;
 
 const restOwner = User.discriminator(
   "restaurantOwner",
-  new mongoose.Schema({ Owner: Boolean })
+  new mongoose.Schema({
+    Owner: Boolean,
+    restOwned: [{ type: Schema.Types.ObjectId, ref: "restaurant" }],
+  })
 );
 
 module.exports.restOwner = restOwner;

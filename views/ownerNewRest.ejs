@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
+    <title>Add Food here</title>
+  </head>
+  <body>
+    <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
+    <h1>Create a new restaurant here</h1>
+    <form action="/Owner/newRestaurant" method="post">
+      <label for="name">Restaurant Name</label><br />
+      <input type="text" id="name" name="name" /><br />
+      <label for="speciality">Speciality</label><br />
+      <input type="text" id="speciality" name="speciality" /><br />
+      <!-- add phone number as an option-->
+      <button>submit</button>
+    </form>
+  </body>
+</html>
