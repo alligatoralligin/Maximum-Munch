@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const passportLocalMongoose = require("passport-local-mongoose");
+const { restaurant } = require("./restaurantSchema");
 
 const userSchema = new Schema({
   username: { type: String, required: true },

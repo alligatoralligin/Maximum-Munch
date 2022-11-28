@@ -82,8 +82,19 @@ router.post("/newRestaurant", isLoggedin, isOwner, async (req, res) => {
   const foundUser = await user.findOne({ username: targetUser });
   const createdRestaurant = await restaurant.create(req.body);
   foundUser.restOwned.push(createdRestaurant._id);
-  console.log(createdRestaurant);
+  await foundUser.save();
+  console.log(foundUser.restOwned);
   res.send("new restaurant created");
 });
 
+router.get("/Restaurants", async (req, res) => {
+  const targetUser = req.session.username;
+  const foundUser = await user.findOne({ username: targetUser });
+  const ownedRest = await foundUser.populate({
+    path: "restOwned",
+    model: "restaurant",
+  });
+  console.log(ownedRest);
+  res.render("ownedRestaurants.ejs", { ownedRest });
+});
 module.exports = router;

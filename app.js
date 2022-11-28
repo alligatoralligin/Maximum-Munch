@@ -53,8 +53,15 @@ passport.use(new LocalStrategy(user.authenticate()));
 passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
 
+app.use(function (req, res, next) {
+  res.locals.state = req.isAuthenticated();
+  res.locals.ownerState = req.session.owner;
+  next();
+});
+//using res.local I can keep track of the state on the navbar partial that I use so that login option only appears when the user is not logged in and logout option appears when user is logged in
 app.use("/restaurants", restaurantsRouter);
 app.use("/Owner", ownerRouter);
+
 mongoose
   .connect("mongodb://localhost:27017/MaximumMunch", { useNewUrlParser: true })
   .then(() => {
@@ -187,7 +194,7 @@ app.post(
   passport.authenticate("local", { failureRedirect: "/login" }),
   async (req, res) => {
     const foundUser = await user.findOne({ username: req.body.username });
-    if ((foundUser.Owner = true)) {
+    if (foundUser.Owner === true) {
       req.session.owner = true;
     }
     console.log("you have logged in");
@@ -218,7 +225,8 @@ app.post("/register", async (req, res) => {
   // });
   // console.log(newUser);
   console.log("user registered");
-  res.send("new account created");
+  // ----------------Need to add popup flash message------------------
+  res.redirect("/index");
 });
 
 app.get("/logout", async (req, res, next) => {
@@ -226,6 +234,8 @@ app.get("/logout", async (req, res, next) => {
     if (err) {
       return next(err);
     }
+    req.session.owner = false;
+    req.session.username = null;
     console.log("You have logged out");
     res.redirect("/home");
   });
