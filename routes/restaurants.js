@@ -4,24 +4,26 @@ const { restaurant } = require("../Schemas/restaurantSchema");
 const { food } = require("../Schemas/foodSchema");
 const { user, customer, restOwner } = require("../Schemas/userSchema");
 const isOwner = require("../Middleware/isOwner");
-
-function wrapperFn(fn) {
-  return function (req, res, next) {
-    try {
-      fn(req, res, next);
-    } catch (error) {
-      next(error);
-    }
-  };
-}
+const wrapperFn = require("../HelperFn/tryCatch");
+const { ErrorHandler } = require("../Errorhandler/Errorhandler");
 
 router.get("/:id", async (req, res) => {
   const findRest = await restaurant.findById(req.params.id);
   if (findRest.foods.length > 0) {
     const foodList = await findRest.populate("foods");
   }
+  var ownsRest = false;
+  if (req.session.username) {
+    const foundUser = await user.findOne({ username: req.session.username });
+    if (foundUser.restOwned) {
+      const ownedRests = foundUser.restOwned;
+      if (ownedRests.includes(req.params.id)) {
+        ownsRest = true;
+      }
+    }
+  }
   console.log(req.session.owner);
-  res.render("userShowPage.ejs", { findRest });
+  res.render("userShowPage.ejs", { findRest, ownsRest });
 });
 
 router.get("/:id/edit", async (req, res) => {
@@ -29,18 +31,41 @@ router.get("/:id/edit", async (req, res) => {
   res.render("editPage.ejs", { findRest });
 });
 
-router.get("/:id/addFood", async (req, res) => {
-  const findRest = await restaurant.findById(req.params.id);
-  res.render("addFood.ejs", { findRest });
-});
+router.get(
+  "/:id/addFood",
+  wrapperFn(async (req, res) => {
+    const findRest = await restaurant.findById(req.params.id);
+    res.render("addFood.ejs", { findRest });
+  })
+);
 
 router.post(
   "/:id/addFood",
-  wrapperFn(async (req, res, next) => {
+  wrapperFn(async (req, res) => {
     const findRest = await restaurant.findById(req.params.id);
     const newFood = req.body;
+    const allFoods = await findRest.populate("foods", "name");
+    const populatedFood = allFoods.foods;
+    var found = false;
+    for (var i = 0; i < populatedFood.length; i++) {
+      if (populatedFood[i].name == req.body.name) {
+        found = true;
+        break;
+      }
+    }
     if (!req.body.name) {
       throw new Error("There is no name to your food item");
+    }
+    if (!req.body.price) {
+      throw new Error("There is no price to your food item");
+    }
+    if (!req.body.Cuisine) {
+      throw new Error("There is no cuisine to your food item");
+    }
+    if (found === true) {
+      throw new Error(
+        "There is already an item with this name at this restaurant"
+      );
     }
     const createFood = await food.create(newFood);
     findRest.foods.push(createFood._id);

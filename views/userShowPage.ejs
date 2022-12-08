@@ -17,10 +17,17 @@
         Price:<%=findRest.foods[selection].price %>
         <img src="<%=findRest.foods[selection].foodPhoto%>" alt="Sushi Photo" />
       </h3>
+      <% if(!ownerState&&state){%>
       <button>add to cart</button>
+      <% } %>
     </form>
     <%} %>
     <br />
+    <% if(ownerState===true&&ownsRest===true){%>
+    <form action="/restaurants/<%=findRest.id%>/addFood">
+      <button>Add new food</button>
+    </form>
+    <% } %>
     <form action="/index"><button>Back to Index</button></form>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

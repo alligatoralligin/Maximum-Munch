@@ -16,6 +16,7 @@ const isOwner = require("./Middleware/isOwner.js");
 const flash = require("connect-flash");
 const app = express();
 const engine = require("ejs-mate");
+const ErrorHandler = require("./Errorhandler/Errorhandler");
 const jsonParser = bodyParser.json();
 // const wrapperFn = require("./HelperFn/tryCatch");
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
@@ -58,9 +59,12 @@ app.use(function (req, res, next) {
   res.locals.ownerState = req.session.owner;
   next();
 });
+
 //using res.local I can keep track of the state on the navbar partial that I use so that login option only appears when the user is not logged in and logout option appears when user is logged in
 app.use("/restaurants", restaurantsRouter);
 app.use("/Owner", ownerRouter);
+
+app.use(ErrorHandler);
 
 mongoose
   .connect("mongodb://localhost:27017/MaximumMunch", { useNewUrlParser: true })
@@ -71,15 +75,15 @@ mongoose
     console.log("error");
   });
 
-function wrapperFn(fn) {
-  return function (req, res, next) {
-    try {
-      fn(req, res, next);
-    } catch (error) {
-      next(error);
-    }
-  };
-}
+// function wrapperFn(fn) {
+//   return function (req, res, next) {
+//     try {
+//       fn(req, res, next);
+//     } catch (error) {
+//       next(error);
+//     }
+//   };
+// }
 // function wrapperFn(fn) {
 //   {
 //     return function (req, res, next) {
@@ -194,6 +198,7 @@ app.post(
   passport.authenticate("local", { failureRedirect: "/login" }),
   async (req, res) => {
     const foundUser = await user.findOne({ username: req.body.username });
+    req.session.username = req.body.username;
     if (foundUser.Owner === true) {
       req.session.owner = true;
     }

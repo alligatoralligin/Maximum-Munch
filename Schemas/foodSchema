@@ -6,6 +6,7 @@ const foodSchema = new Schema({
   price: Number,
   Cuisine: {
     type: String,
+    required: true,
     enum: [
       "Japanese",
       "Chinese ",

@@ -7,10 +7,19 @@
 // }
 
 function wrapperFn(fn) {
-  {
-    return function (req, res, next) {
-      fn(req, res, next).catch((e) => next(e));
-    };
-  }
+  return function (req, res, next) {
+    fn(req, res, next).catch((err) => next(err));
+  };
 }
-module.exports = { wrapperFn: wrapperFn };
+
+// function wrapperFn(fn) {
+//   return async function (req, res, next) {
+//     try {
+//       await fn(req, res, next);
+//     } catch (error) {
+//       next(error);
+//     }
+//   };
+// }
+
+module.exports = wrapperFn;
