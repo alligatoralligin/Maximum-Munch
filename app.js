@@ -57,6 +57,8 @@ passport.deserializeUser(user.deserializeUser());
 app.use(function (req, res, next) {
   res.locals.state = req.isAuthenticated();
   res.locals.ownerState = req.session.owner;
+  res.locals.foodCart = req.session.cart;
+  res.locals.checkoutTotal = req.session.total;
   next();
 });
 
@@ -108,6 +110,7 @@ app.get("/home", function (req, res) {
 app.get("/index", async (req, res) => {
   const restaurants = await restaurant.find({});
   // console.log(restaurants);
+  console.log(req.session.cart);
   res.render("index.ejs", { restaurants });
 });
 
@@ -239,8 +242,9 @@ app.get("/logout", async (req, res, next) => {
     if (err) {
       return next(err);
     }
-    req.session.owner = false;
-    req.session.username = null;
+    // req.session.owner = false;
+    // req.session.username = null;
+    req.session.destroy();
     console.log("You have logged out");
     res.redirect("/home");
   });
@@ -286,13 +290,49 @@ app.get("/logout", async (req, res, next) => {
 // );
 
 app.post("/foodCart/:id", isLoggedin, async (req, res) => {
+  if (!req.session.total) {
+    req.session.total = 0;
+  }
   if (!req.session.cart) {
     req.session.cart = [];
   }
   if (req.session.cart.includes(req.params.id) === false) {
-    req.session.cart.push(req.params.id);
+    const result = await food
+      .findOne({ _id: req.params.id })
+      .select({ name: 1, _id: 1, price: 1, foodPhoto: 1 });
+    req.session.cart.push(result);
+    req.session.total += result.price;
   }
   console.log(req.session.cart);
+  // if (!req.session.populatedCart) {
+  //   req.session.populatedCart = [];
+  // }
+  // for (let ids = 0; ids < req.session.cart.length; ids++) {
+  //   const results = await food
+  //     .find({ _id: req.session.cart[ids] })
+  //     .select({ name: 1, _id: 0, price: 1 });
+  //   if (!req.session.populatedCart.includes(req.session.cart[ids])) {
+  //     req.session.populatedCart.push(results);
+  //   }
+  // }
+  // console.log(req.session.populatedCart);
+  res.status(204).send();
+});
+
+app.get("/checkout", async (req, res) => {
+  res.render("checkOut.ejs");
+});
+app.delete("/foodCart/:id", isLoggedin, async (req, res) => {
+  const selectedFood = await food.findOne({ _id: req.params.id }).select({
+    name: 1,
+    _id: 0,
+  });
+  // ***using .map to create a new array that accesses the original array's .name so that indexof can be used
+  const index = req.session.cart.map((x) => x.name).indexOf(selectedFood.name);
+  // const index = req.session.cart.indexOf(`${selectedFood.name}`);
+  console.log(selectedFood.name);
+  console.log(index);
+  req.session.cart.splice(index);
   res.status(204).send();
 });
 

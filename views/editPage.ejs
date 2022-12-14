@@ -10,6 +10,11 @@
   <body>
     <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
     <form action="/restaurants/<%=findRest._id %>" method="post">
+      <img src="<%=findRest.icon%>" alt="Restaurant Icon" />
+      <br />
+      <label for="icon">Restaurant icon</label> <br />
+      <input type="text" id="icon" name="icon" /><br />
+      <h3>Restaurant Icon</h3>
       <label for="name">Restaurant Name</label> <br />
       <input
         type="text"
@@ -39,5 +44,6 @@
     <form action="/restaurants/<%=findRest._id %>">
       <button>back to showpage</button>
     </form>
+    <%- include('/Users/Alex/MaximumMunch/views/partials/scripts.ejs') %>
   </body>
 </html>

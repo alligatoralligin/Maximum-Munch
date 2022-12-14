@@ -5,6 +5,7 @@ const { food } = require("./foodSchema");
 
 const restaurantSchema = new Schema({
   name: { type: String, required: true },
+  icon: String,
   location: String,
   speciality: {
     type: String,

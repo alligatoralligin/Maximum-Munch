@@ -1,0 +1,11 @@
+.header {
+  background-size: auto;
+  border-bottom: solid;
+}
+
+img {
+  border: 3px solid;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+}

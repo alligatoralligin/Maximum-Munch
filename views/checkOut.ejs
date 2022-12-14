@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
+
+  <body>
+    <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
+    <h1>Checkout</h1>
+    <% if (foodCart){ %> <%foodCart.forEach((element,index,array)=>{ %>
+    <h3>name:<%=foodCart[index].name%></h3>
+    <br />
+    <h3>price:<%=foodCart[index].price%></h3>
+    <img src="<%=foodCart[index].foodPhoto%> " alt="food image" />
+    <%}) %> <% } %>
+    <h3>Total Price:<%=checkoutTotal %></h3>
+    <%-include('/Users/Alex/MaximumMunch/views/partials/scripts.ejs') %>
+  </body>
+</html>

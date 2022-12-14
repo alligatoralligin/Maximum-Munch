@@ -77,7 +77,37 @@
       </li>
       <% } %>
     </ul>
-
+    <div class="dropdown">
+      <button
+        id="shoppingCart"
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        data-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i class="fa-solid fa-cart-shopping"></i> Cart
+      </button>
+      <div class="dropdown-menu">
+        <div class="card" style="width: 18rem">
+          <div class="card-header dropdown-header">Shopping Cart</div>
+          <ul class="list-group list-group-flush dropdown-item">
+            <% if (foodCart){ %> <% foodCart.forEach((element,index,array)=>{ %>
+            <li class="list-group-item dropdown-item">
+              item name:<%=foodCart[index].name%> <br />
+              item price:<%=foodCart[index].price%>
+              <form
+                method="post"
+                action="/foodCart/<%=foodCart[index]._id%>?_method=DELETE"
+              >
+                <button>Delete</button>
+              </form>
+            </li>
+            <% }) %> <% } %>
+            <a href="/checkout">Checkout</a>
+          </ul>
+        </div>
+      </div>
+    </div>
     <form class="form-inline my-2 my-lg-0">
       <input
         class="form-control mr-sm-2"

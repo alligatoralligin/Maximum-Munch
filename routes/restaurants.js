@@ -22,8 +22,8 @@ router.get("/:id", async (req, res) => {
       }
     }
   }
-  console.log(req.session.owner);
-  res.render("userShowPage.ejs", { findRest, ownsRest });
+  // console.log(req.session.owner);
+  res.render("showPage.ejs", { findRest, ownsRest });
 });
 
 router.get("/:id/edit", async (req, res) => {
@@ -91,8 +91,10 @@ router.post("/:id/editFood/:food_id", async (req, res) => {
   const newfood = req.body;
   const updatedFood = await food.findByIdAndUpdate(findFood, newfood);
   console.log(newfood);
-  res.send("You have reached editFood post route");
+  res.send("You have reached edit Food post route");
 });
+
+router.post("/");
 
 router.delete("/:id/foods/:food_id", async (req, res) => {
   const findRest = await restaurant.findById(req.params.id);

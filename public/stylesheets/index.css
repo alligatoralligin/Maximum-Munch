@@ -1,0 +1,12 @@
+.card {
+  max-width: 18rem;
+  margin-left: 5%;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
