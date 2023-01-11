@@ -28,6 +28,7 @@ const restaurantSchema = new Schema({
       ref: "Food",
     },
   ],
+  photo: String,
 });
 
 const restaurant = mongoose.model("restaurant", restaurantSchema);

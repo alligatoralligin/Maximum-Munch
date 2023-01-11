@@ -68,7 +68,12 @@ router.post(
       );
     }
     const createFood = await food.create(newFood);
+    const restInfo = await food.findByIdAndUpdate(createFood.id, {
+      //Adding restaurant info to new food item create, not sure if there is a more efficient way
+      Restaurant: findRest.name,
+    });
     findRest.foods.push(createFood._id);
+    await restInfo.save();
     await findRest.save();
     res.redirect(`/restaurants/${req.params.id}`);
   })

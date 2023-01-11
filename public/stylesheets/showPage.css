@@ -1,11 +1,31 @@
 .header {
   background-size: auto;
-  border-bottom: solid;
+  border-bottom: 1px solid;
+  height: 25vh;
+}
+.header img {
+  width: 100%;
+  height: 25vh;
 }
 
-img {
-  border: 3px solid;
+.row img {
+  border: 1px solid;
   border-radius: 4px;
-  padding: 5px;
+  padding: 0px;
   width: 150px;
+}
+
+#restaurantInfoSection {
+  border-bottom: 1px;
+  margin-bottom: 5%;
+}
+
+#foodSelection {
+  display: grid;
+  place-items: center;
+  align-content: center;
+}
+
+.card-body {
+  width: 500px;
 }

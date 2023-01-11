@@ -1,0 +1,43 @@
+h3,
+h4,
+h5 {
+  font-family: "Roboto", sans-serif;
+}
+#banner {
+  margin-top: 2%;
+  text-align: center;
+  margin-bottom: 1%;
+}
+
+hr.solid {
+  border-top: 0.5px solid black;
+}
+
+div.col-3 {
+  margin-bottom: 3rem;
+}
+
+#Summary {
+  margin-top: 15%;
+}
+
+#promo {
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+#Subtotal,
+#Shipping {
+  word-spacing: 8em;
+}
+
+.col-lg-4 {
+  transform: translate(2rem, 6rem);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+.col-lg-4 button {
+  transform: translateX(-7px);
+  margin: 10px;
+}

@@ -20,8 +20,11 @@ const foodSchema = new Schema({
       "Vietnamese",
     ],
   },
+  foodCategory: String,
   Restaurant: String,
   foodPhoto: String,
+  foodDescription: String,
+  quantity: { type: Number, default: 0 },
 });
 
 const Food = mongoose.model("Food", foodSchema);

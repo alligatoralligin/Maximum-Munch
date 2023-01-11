@@ -2,6 +2,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Show Page</title>
+<head>
 <link rel="stylesheet" href="/stylesheets/homePage.css" />
 <link
   rel="stylesheet"
@@ -9,18 +10,28 @@
   integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
   crossorigin="anonymous"
 />
-<head>
+  <script defer src="/Scripts/homePageScroll.js"></script>
   </head>
   <body>
     <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
-     <div class="container">
-    <div class="card border-primary">
-  <div class="card-header">Welcome to MaximumMunch</div>
+  <div id="secondary-content">
+    <section class="hidden">
+    <h1>Choose through many of our options</h1>
+    </section>
+  </div>
+  <div id="tertiary-content"> 
+    <section class="hidden">
+    <h1>Quick and simple delivery right to your door</h1>
+    </section>
+  </div>
+    <div id="main-content">   <section class="hidden">
+    <div class="card border-primary" id="cardContent">
   <div class="card-body text-primary">
   <a href="/index" class="btn btn-primary bg-dark">Browse from many of our food options</a>
   <a href="/Owner/Login"class="btn btn-primary bg-dark">Restaurant Owners can manage their options here</a>
   </div>
   </div>
+  </section>
   </div>
  <%- include('/Users/Alex/MaximumMunch/views/partials/scripts.ejs') %>
   </body>

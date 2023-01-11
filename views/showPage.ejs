@@ -14,33 +14,50 @@
   <body>
     <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
     <div class="header">
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
+     <img src="<%=findRest.photo%>" alt="bannerImage">
     </div>
+    <div id="restaurantInfoSection">
     <h5>Name: <%=findRest.name%></h3>
     <h5>Location: <%=findRest.location%></h3>
     <h5>Speciality: <%=findRest.speciality %></h3>
     <h5>Rating: <%=findRest.rating %></h3>
+      </div>
+      <div id="foodSelection">
     <%if(!ownerState&&!state){%> <%for (const selection in findRest.foods){%>
-    <h3>
-      Food Name:<%=findRest.foods[selection].name%>&ensp;&ensp;Food
-      Price:<%=findRest.foods[selection].price %>
-      <img src="<%=findRest.foods[selection].foodPhoto%>" alt="Sushi Photo" />
-    </h3>
+      <div class="card mb-3" style="max-width: 540px;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="<%=findRest.foods[selection].foodPhoto%>" alt="foodPhoto">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%=findRest.foods[selection].name%></h5>
+        <p class="card-text"> Price: $<%=findRest.foods[selection].price %>.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+  </div>
+</div>
     <% } %> <%} %>
     <!--  -->
     <% if(!ownerState&&state){%> <%for (const selection in findRest.foods){%>
-    <h3>
-      Food Name:<%=findRest.foods[selection].name%>&ensp;&ensp;Food
-      Price:<%=findRest.foods[selection].price %>
-      <img src="<%=findRest.foods[selection].foodPhoto%>" alt="Sushi Photo" />
-      <form method="POST" action="/foodCart/<%=findRest.foods[selection]._id%>">
+     <div class="card mb-3" style="max-width: 540px;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="<%=findRest.foods[selection].foodPhoto%>" alt="foodPhoto">
+       <form method="POST" action="/foodCart/<%=findRest.foods[selection]._id%>">
         <button>add to cart</button>
       </form>
-    </h3>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%=findRest.foods[selection].name%></h5>
+        <p class="card-text"> Price: $<%=findRest.foods[selection].price %>.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+  </div>
+</div>
     <% } %> <% } %>
     <br />
     <!--  -->
@@ -66,6 +83,7 @@
     </form>
     <% } %>
     <form action="/index"><button>Back to Index</button></form>
+    </div>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

@@ -1,17 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+  <link rel="stylesheet" href="/stylesheets/checKOut.css"/>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+    crossorigin="anonymous"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@500&family=Raleway:wght@800&family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <style> @import url('https://fonts.googleapis.com/css2?family=Markazi+Text:wght@500&family=Raleway:wght@800&family=Roboto:wght@300&display=swap'); </style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout</title>
   <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
 
-  <body>
+  <body >
     <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
-    <h1>Checkout</h1>
+    <div class="container-fluid">
+      <div class="row">
+      <div class="col-lg-7">
+    <!-- <h2 id="banner">Review Your Order</h2> -->
+    <h3 id="banner">Shopping Cart</h3>
+    <h3 id="banner">Your cart:(<%=totalQuantity%>)items</h3>
+    <hr class="solid">
+    <div class="container">
+      <div class="row">
+        <div class="col-6">Item</div>
+        <div class="col-2">Quantity</div>
+        <div class="col-2">Remove</div>
+        <div class="col-2">Price</div>
+    
     <% if (foodCart){ %> <%foodCart.forEach((element,index,array)=>{ %>
-    <h3>name:<%=foodCart[index].name%></h3>
-    <br />
-    <h3>price:<%=foodCart[index].price%></h3>
-    <img src="<%=foodCart[index].foodPhoto%> " alt="food image" />
+      <div class="col-3"><img src="<%=foodCart[index].foodPhoto%> " alt="food image" /></div>
+      <div class="col-3"><h5>Food Item:<%=foodCart[index].name%></h5></div>
+    <!-- add restaurant name to item when populated databse items contain restaurant name -->
+    <div class="col-2 ">
+    <h5>
+      <a href="/foodCart/<%=foodCart[index]._id%>/addfood"><button>+</button></a>
+      <%=foodCart[index].quantity%> 
+      <a href="/foodCart/<%=foodCart[index]._id%>/removefood"><button>-</button></a> 
+    </h5>
+    </div>
+    <div class="col-2"><a href="/foodCart/<%=foodCart[index]._id%>/cartremove"><button>X</button></a></div>
+    <div class="col-2"><h5>$<%=foodCart[index].price%></h5></div>
     <%}) %> <% } %>
-    <h3>Total Price:<%=checkoutTotal %></h3>
+      </div>
+    </div>
+    </div>
+      <div class="col-lg-4">
+    <h3 id="Summary">Summary</h3>
+    <hr class="solid">
+    <h4>Enter your promo code here</h4>
+    <form id="promo" action="/"><input type="text"> <button>Apply</button></form>
+    <h5 id="Subtotal">Subtotal: $<%=checkoutTotal %></h5>
+    <h5 id="Shipping">Shipping: TBD</h5>
+    <hr class="solid">
+    <h5>Estimated Total</h5>
+    <button>Checkout</button>
+    </div>
+</div>
+</div>
     <%-include('/Users/Alex/MaximumMunch/views/partials/scripts.ejs') %>
+    <!-- <script>
+      function refreshQuant(){
+        let xhr= new XMLHttpRequest(
+          xhr.open('GET','')
+        )
+      }
+    </script> -->
   </body>
 </html>
