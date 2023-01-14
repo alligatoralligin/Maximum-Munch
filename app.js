@@ -114,9 +114,14 @@ app.get("/home", function (req, res) {
 
 app.get("/index", async (req, res) => {
   const restaurants = await restaurant.find({});
+  const idArray = await restaurant.find({}).select("id");
   // console.log(restaurants);
+  const plainIdArray = [];
+  idArray.forEach((element) => plainIdArray.push(element.id));
+  var randomNumber = Math.floor(Math.random() * plainIdArray.length);
+  var randomId = plainIdArray[randomNumber];
   console.log(req.session.cart);
-  res.render("index.ejs", { restaurants });
+  res.render("index.ejs", { restaurants, randomId });
 });
 
 // app.get("/restaurants/:id", async (req, res) => {

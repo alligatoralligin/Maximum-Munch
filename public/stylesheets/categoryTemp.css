@@ -8,6 +8,9 @@
   width: 50%;
   grid-column-start: 2;
 }
+.click-Card:hover {
+  box-shadow: 0px 0px 11px grey;
+}
 
 .rowHeader {
   width: 100%;
