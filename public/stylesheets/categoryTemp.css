@@ -1,0 +1,64 @@
+.mainContent {
+  display: inline-grid;
+  place-items: center;
+  margin-top: 10%;
+}
+.click-Card {
+  margin-top: 3%;
+  width: 50%;
+  grid-column-start: 2;
+}
+
+.rowHeader {
+  width: 100%;
+  grid-column-start: 2;
+  text-align: center;
+}
+.rowHeader h3 {
+  font-weight: 600;
+}
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+.swiper {
+  grid-column-start: 2;
+  /* border-style: solid; */
+  width: 75%;
+  height: 350px;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 5%;
+}
+
+.swiper-button-prev {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%234c71ae'%2F%3E%3C%2Fsvg%3E") !important;
+  color: black;
+}
+
+.swiper-button-next {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%234c71ae'%2F%3E%3C%2Fsvg%3E") !important;
+  color: black;
+}
+.bottom-left {
+  color: white;
+  position: absolute;
+  transform: translate(10px, -30px);
+  text-shadow: 0.07em 0 black, 0 0.07em black, -0.07em 0 black, 0 -0.07em black;
+}
+
+.swiper-slide {
+  margin-top: 1%;
+  width: auto;
+  max-height: 100%;
+  transition: 0.2s;
+}
+.swiper img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+}
+
+.swiper-slide:hover {
+  transform: scale(1.1);
+}

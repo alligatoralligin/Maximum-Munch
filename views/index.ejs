@@ -85,11 +85,11 @@
           class="card-img-top"
           alt="restaurant photo"
         />
+         <a href="/restaurants/<%=restaurants[restaurant]._id %>"
+              >
         <div class="card-body">
           <h8 class="card-title">
-            <a href="/restaurants/<%=restaurants[restaurant]._id %>"
-              ><%=restaurants[restaurant].name%></a
-            >
+           <%=restaurants[restaurant].name%>
             <p> &#9733;<%=restaurants[restaurant].rating %> </p>
           </h5>
           <!-- <p class="card-text">
@@ -97,6 +97,8 @@
             bulk of the card's content.
           </p> -->
         </div>
+        </a
+            >
       </div>
       <br />
       <% } %>
@@ -105,7 +107,7 @@
   <script>
     const swiper = new Swiper(".swiper", {
       slidesPerView: 4,
-      spaceBetween: 0,
+      spaceBetween: 8,
       loop: true,
 
       // If we need pagination

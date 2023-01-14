@@ -68,7 +68,7 @@
       </li>
       <% } %>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <!-- <form class="form-inline my-2 my-lg-0">
       <input
         class="form-control mr-sm-2"
         type="search"
@@ -78,47 +78,12 @@
       <button class="btn btn-outline-success my-2 my-sm-0 mx-2" type="submit">
         Search
       </button>
-    </form>
-    <ul class="navbar-nav ml-auto">
-      <div class="dropleft">
-        <button
-          id="shoppingCart"
-          class="btn btn-secondary dropdown-toggle"
-          type="button"
-          data-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <i class="fa-solid fa-cart-shopping"></i> Cart
-        </button>
-        <div class="dropdown-menu">
-          <div class="card mr-3" style="width: 15rem">
-            <div class="card-header dropdown-header">Shopping Cart</div>
-            <ul class="list-group list-group-flush dropdown-item">
-              <% if (foodCart){ %> <% foodCart.forEach((element,index,array)=>{
-              %>
-              <li class="list-group-item dropdown-item">
-                <%=foodCart[index].name%> (<%=foodCart[index].quantity%>)<br />
-                $<%=foodCart[index].price%> <br />
+    </form> -->
 
-                <br />
-                <img
-                  src="<%=foodCart[index].foodPhoto%>"
-                  alt="picture"
-                  style="width: 115; height: 115"
-                />
-                <form
-                  method="post"
-                  action="/foodCart/<%=foodCart[index]._id%>?_method=DELETE"
-                >
-                  <button>Delete</button>
-                </form>
-              </li>
-              <% }) %> <% } %>
-              <a href="/checkout">Checkout</a>
-            </ul>
-          </div>
-        </div>
-      </div>
+    <ul class="navbar-nav ml-auto">
+      <form action="/Checkout">
+        <button class="btn btn-secondary">Checkout</button>
+      </form>
       <% if (!state){ %>
       <li class="nav-item active">
         <a class="nav-link" href="/login"

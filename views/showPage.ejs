@@ -22,67 +22,114 @@
     <h5>Speciality: <%=findRest.speciality %></h3>
     <h5>Rating: <%=findRest.rating %></h3>
       </div>
+
       <div id="foodSelection">
-    <%if(!ownerState&&!state){%> <%for (const selection in findRest.foods){%>
-      <div class="card mb-3" style="max-width: 540px;">
+      <div class="sidebar">
+        <%for (const category in sortedFoodObject){%> 
+     <div id="list-example" class="list-group">
+  <a class="list-group-item list-group-item-action" href="#<%=category%>"><%=category%></a>
+</div>
+<% } %> 
+</div>
+<!-- template for not being an owner and not signed in -->
+     <%if(!ownerState&&!state || ownerState===true&&ownsRest===false){%>
+<div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+ 
+  <%for (const category in sortedFoodObject){%>
+    <div class="sectionHeaders">
+      <h4 id="<%=category%>"><%=category%></h4>
+    </div>
+    <%for(const selection in sortedFoodObject[category]){ %>
+   <div class="card mb-3" id="<%=sortedFoodObject[category][selection].foodCategory%>"style="max-width: 540px;">
   <div class="row no-gutters">
     <div class="col-md-4">
-      <img src="<%=findRest.foods[selection].foodPhoto%>" alt="foodPhoto">
+      <img src="<%=sortedFoodObject[category][selection].foodPhoto%>" alt="foodPhoto">
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title"><%=findRest.foods[selection].name%></h5>
-        <p class="card-text"> Price: $<%=findRest.foods[selection].price %>.</p>
+        <h5 class="card-title"><%=sortedFoodObject[category][selection].name%></h5>
+        <p class="card-text"> Price: $<%=sortedFoodObject[category][selection].price %>.</p>
+        <p class="card-text">foodCategory:<%=sortedFoodObject[category][selection].foodCategory%> </p>
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
       </div>
     </div>
   </div>
 </div>
-    <% } %> <%} %>
+<% } %> 
+  <% } %>
+</div>
+<% } %> 
     <!--  -->
-    <% if(!ownerState&&state){%> <%for (const selection in findRest.foods){%>
-     <div class="card mb-3" style="max-width: 540px;">
-  <div class="row no-gutters">
-    <div class="col-md-4">
-      <img src="<%=findRest.foods[selection].foodPhoto%>" alt="foodPhoto">
-       <form method="POST" action="/foodCart/<%=findRest.foods[selection]._id%>">
+    <% if(!ownerState&&state){%>
+  <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+    
+  <%for (const category in sortedFoodObject){%>
+    <div class="sectionHeaders">
+      <h4 id="<%=category%>"><%=category%></h4>
+    </div>
+    <%for(const selection in sortedFoodObject[category]){ %>
+      <div class="card mb-3" id="<%=sortedFoodObject[category][selection].foodCategory%>"style="max-width: 540px;">
+      <div class="row no-gutters">
+      <div class="col-md-4">
+      <img src="<%=sortedFoodObject[category][selection].foodPhoto%>" alt="foodPhoto">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%=sortedFoodObject[category][selection].name%></h5>
+        <p class="card-text"> Price: $<%=sortedFoodObject[category][selection].price %>.</p>
+        <p class="card-text">foodCategory:<%=sortedFoodObject[category][selection].foodCategory%> </p>
+          <form method="POST" action="/foodCart/<%=sortedFoodObject[category][selection].id%>">
         <button>add to cart</button>
       </form>
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title"><%=findRest.foods[selection].name%></h5>
-        <p class="card-text"> Price: $<%=findRest.foods[selection].price %>.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
       </div>
     </div>
   </div>
 </div>
-    <% } %> <% } %>
+      <% } %> 
+  <% } %>
+</div>
+ <% } %>
     <br />
-    <!--  -->
-    <% if(ownerState===true&&ownsRest===true){%> <%for (const selection in
-    findRest.foods){%>
-    <h3>
-      Food Name:<%=findRest.foods[selection].name%>&ensp;&ensp;Food
-      Price:<%=findRest.foods[selection].price %>
-      <img src="<%=findRest.foods[selection].foodPhoto%>" alt="Sushi Photo" />
-      <form
+    <!-- is owner account and owns restaurant -->
+    <% if(ownerState===true&&ownsRest===true){%> 
+        <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+    <%for (const category in sortedFoodObject){%>
+      <div class="sectionHeaders">
+      <h4 id="<%=category%>"><%=category%></h4>
+        </div>  
+    <%for(const selection in sortedFoodObject[category]){ %>
+          <div class="card mb-3" id="<%=sortedFoodObject[category][selection].foodCategory%>"style="max-width: 540px;">
+        <div class="row no-gutters">
+        <div class="col-md-4">
+      <img src="<%=sortedFoodObject[category][selection].foodPhoto%>" alt="foodPhoto">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%=sortedFoodObject[category][selection].name%></h5>
+        <p class="card-text"> Price: $<%=sortedFoodObject[category][selection].price %>.</p>
+        <p class="card-text">foodCategory:<%=sortedFoodObject[category][selection].foodCategory%> </p>
+          <form
         method="POST"
-        action="/restaurants/<%=findRest.id%>/foods/<%=findRest.foods[selection].id %>?_method=DELETE"
+        action="/restaurants/<%=findRest.id%>/foods/<%=sortedFoodObject[category][selection].id%>?_method=DELETE"
       >
         <button>Delete</button>
       </form>
-    </h3>
-    <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %> 
+</div>
+  <% } %>
+
     <form action="/restaurants/<%=findRest.id%>/addFood">
       <button>Add new food</button>
     </form>
     <form action="/restaurants/<%=findRest.id%>/edit">
       <button>edit restaurant information here</button>
     </form>
-    <% } %>
     <form action="/index"><button>Back to Index</button></form>
+      <% } %> 
     </div>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

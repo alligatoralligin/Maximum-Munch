@@ -11,6 +11,22 @@ router.get("/:id", async (req, res) => {
   const findRest = await restaurant.findById(req.params.id);
   if (findRest.foods.length > 0) {
     const foodList = await findRest.populate("foods");
+    var sortedFoodObject = {};
+    var categoryHeaders = [];
+    const foodArray = foodList.foods;
+    foodArray.forEach((element, index) => {
+      if (sortedFoodObject[foodArray[index].foodCategory] == null) {
+        sortedFoodObject[foodArray[index].foodCategory] = [];
+        sortedFoodObject[foodArray[index].foodCategory].push(foodArray[index]);
+      } else {
+        sortedFoodObject[foodArray[index].foodCategory].push(foodArray[index]);
+      }
+      if (!categoryHeaders.includes(foodArray[index].foodCategory)) {
+        categoryHeaders.push(foodArray[index].foodCategory);
+      }
+    });
+    console.log(sortedFoodObject);
+    console.log(categoryHeaders);
   }
   var ownsRest = false;
   if (req.session.username) {
@@ -22,8 +38,11 @@ router.get("/:id", async (req, res) => {
       }
     }
   }
-  // console.log(req.session.owner);
-  res.render("showPage.ejs", { findRest, ownsRest });
+  res.render("showPage.ejs", {
+    findRest,
+    ownsRest,
+    sortedFoodObject,
+  });
 });
 
 router.get("/:id/edit", async (req, res) => {

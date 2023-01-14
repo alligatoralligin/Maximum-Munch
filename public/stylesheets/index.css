@@ -1,8 +1,11 @@
 .card {
-  max-width: 18rem;
+  max-width: 20rem;
   margin-left: 5%;
   margin-bottom: 0;
   margin-top: 10%;
+}
+.card:hover {
+  box-shadow: 4em black;
 }
 
 .container {
@@ -66,6 +69,7 @@
   position: relative;
   text-align: center;
   color: white;
+  text-shadow: 0.07em 0 black, 0 0.07em black, -0.07em 0 black, 0 -0.07em black;
 }
 .bottom-left {
   position: absolute;
@@ -74,6 +78,7 @@
 }
 
 .swiper-slide {
+  margin-top: 1%;
   width: auto;
   max-height: 100%;
   transition: 0.2s;
