@@ -1,0 +1,16 @@
+h1 {
+  color: orange;
+  align-self: center;
+}
+
+.container {
+  align-items: center;
+}
+.card {
+  margin-top: 5%;
+  width: 90%;
+}
+
+.card-body {
+  text-align: center;
+}

@@ -1,0 +1,44 @@
+h1 {
+  color: white;
+  text-shadow: 0.07em 0 black, 0 0.01em black, -0.01em 0 black, 0 -0.01em black;
+}
+.intro {
+  height: 100vh;
+  background-image: url(https://images.unsplash.com/photo-1561758033-d89a9ad46330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80);
+  background-size: cover;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  min-height: 100vh;
+}
+
+.namingRest {
+  height: 100vh;
+  background-image: url(https://images.unsplash.com/photo-1528207776546-365bb710ee93?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80);
+  background-size: cover;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  min-height: 100vh;
+}
+
+.restType {
+  height: 100vh;
+  background-image: url(https://images.unsplash.com/photo-1444952483853-7c36e902e722?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80);
+  background-size: cover;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  min-height: 100vh;
+}
+
+.hidden {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  opacity: 0;
+  transition: all 1s;
+}
+.show {
+  opacity: 1;
+}

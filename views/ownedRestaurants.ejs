@@ -2,13 +2,22 @@
 <html lang="en">
   <head>
     <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
+    <link rel="stylesheet" href="/stylesheets/ownedRest.css" />
   </head>
   <body>
-    <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
-    <h1>Here are your owned restaurants</h1>
-    <% for(let rest of ownedRest.restOwned) {%>
-    <a href="/restaurants/<%=rest._id%> ">name:<%= rest.name %></a>
-    <p>speciality:<%= rest.speciality%></p>
+    <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %> <%
+    for(let rest of ownedRest.restOwned) {%>
+    <div class="container">
+      <a href="/restaurants/<%=rest.id%>">
+        <div class="card mb-3">
+          <img src="..." class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title"><%=rest.name%></h5>
+            <p class="card-text">Speciality:<%= rest.speciality%></p>
+          </div>
+        </div>
+      </a>
+    </div>
     <p><% } %></p>
     <%- include('/Users/Alex/MaximumMunch/views/partials/scripts.ejs') %>
   </body>

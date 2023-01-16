@@ -84,7 +84,7 @@ router.post("/newRestaurant", isLoggedin, isOwner, async (req, res) => {
   foundUser.restOwned.push(createdRestaurant._id);
   await foundUser.save();
   console.log(foundUser.restOwned);
-  res.send("new restaurant created");
+  res.redirect(`/restaurants/${createdRestaurant._id}`);
 });
 
 router.get("/Restaurants", async (req, res) => {

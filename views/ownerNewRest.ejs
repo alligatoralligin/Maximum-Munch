@@ -5,18 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
+    <script defer src="/Scripts/homePageScroll.js"></script>
+    <link rel="stylesheet" href="/stylesheets/createRest.css" />
     <title>Add Food here</title>
   </head>
   <body>
     <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
-    <h1>Create a new restaurant here</h1>
+    <div class="intro">
+      <section class="hidden">
+        <h1>Here's to a new partnership</h1>
+        >
+      </section>
+    </div>
     <form action="/Owner/newRestaurant" method="post">
-      <label for="name">Restaurant Name</label><br />
-      <input type="text" id="name" name="name" /><br />
-      <label for="speciality">Speciality</label><br />
-      <input type="text" id="speciality" name="speciality" /><br />
+      <div class="namingRest">
+        <section class="hidden">
+          <h1>Add your restaurant name here</h1>
+          <input type="text" id="name" name="name" /><br />
+        </section>
+      </div>
+      <div class="restType">
+        <section class="hidden">
+          <h1>What type of cuisine will you be serving?</h1>
+          <input type="text" id="speciality" name="speciality" /><br />
+          <button>submit</button>
+        </section>
+      </div>
       <!-- add phone number as an option-->
-      <button>submit</button>
     </form>
     <%- include('/Users/Alex/MaximumMunch/views/partials/scripts.ejs') %>
   </body>
