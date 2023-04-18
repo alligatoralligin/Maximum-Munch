@@ -49,8 +49,8 @@
       <div class="card-body">
         <h5 class="card-title"><%=sortedFoodObject[category][selection].name%></h5>
         <p class="card-text"> Price: $<%=sortedFoodObject[category][selection].price %>.</p>
-        <p class="card-text">foodCategory:<%=sortedFoodObject[category][selection].foodCategory%> </p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <p class="card-text">Category:<%=sortedFoodObject[category][selection].foodCategory%> </p>
+        <p class="card-text"><small class="text-muted">Food description</small></p>
       </div>
     </div>
   </div>
@@ -79,7 +79,7 @@
         <p class="card-text"> Price: $<%=sortedFoodObject[category][selection].price %>.</p>
         <p class="card-text">foodCategory:<%=sortedFoodObject[category][selection].foodCategory%> </p>
           <form method="POST" action="/foodCart/<%=sortedFoodObject[category][selection].id%>">
-        <button>add to cart</button>
+        <button type="submit" class="btn btn-secondary">add to cart</button>
       </form>
       </div>
     </div>
@@ -107,12 +107,15 @@
       <div class="card-body">
         <h5 class="card-title"><%=sortedFoodObject[category][selection].name%></h5>
         <p class="card-text"> Price: $<%=sortedFoodObject[category][selection].price %>.</p>
-        <p class="card-text">foodCategory:<%=sortedFoodObject[category][selection].foodCategory%> </p>
+        <p class="card-text">Category:<%=sortedFoodObject[category][selection].foodCategory%> </p>
           <form
         method="POST"
         action="/restaurants/<%=findRest.id%>/foods/<%=sortedFoodObject[category][selection].id%>?_method=DELETE"
       >
-        <button>Delete</button>
+        <button type="submit" class="btn btn-secondary">Delete</button>
+      </form>
+      <form method="GET" action="/restaurants/<%=findRest.id%>/editFood/<%=sortedFoodObject[category][selection].id%>">
+        <button type="submit" class="btn btn-secondary">Edit Food Item</button>
       </form>
       </div>
     </div>
@@ -121,15 +124,16 @@
 <% } %> 
 </div>
   <% } %>
-
+<div class="ownerSect">
     <form action="/restaurants/<%=findRest.id%>/addFood">
-      <button>Add new food</button>
+      <button class="btn btn-dark">Add new food object</button>
     </form>
     <form action="/restaurants/<%=findRest.id%>/edit">
-      <button>edit restaurant information here</button>
+      <button class="btn btn-dark">Edit Restaurant Information Here</button>
     </form>
-    <form action="/index"><button>Back to Index</button></form>
+    <form action="/index"><button class="btn btn-dark">Back to Index</button></form>
       <% } %> 
+      </div>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

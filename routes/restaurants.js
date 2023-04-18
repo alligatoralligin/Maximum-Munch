@@ -98,38 +98,53 @@ router.post(
   })
 );
 
-router.post("/:id", async (req, res) => {
-  const findRest = await restaurant.findByIdAndUpdate(req.params.id, req.body);
-  res.redirect(`/restaurants/${req.params.id}`);
-});
+router.post(
+  "/:id",
+  wrapperFn(async (req, res) => {
+    const findRest = await restaurant.findByIdAndUpdate(
+      req.params.id,
+      req.body
+    );
+    res.redirect(`/restaurants/${req.params.id}`);
+  })
+);
 
-router.get("/:id/editFood/:food_id", async (req, res) => {
-  const findRest = await restaurant.findById(req.params.id);
-  const findFood = await food.findById(req.params.food_id);
-  res.render("editFood.ejs", { findFood, findRest });
-});
+router.get(
+  "/:id/editFood/:food_id",
+  wrapperFn(async (req, res) => {
+    const findRest = await restaurant.findById(req.params.id);
+    const findFood = await food.findById(req.params.food_id);
+    res.render("editFood.ejs", { findFood, findRest });
+  })
+);
 
-router.post("/:id/editFood/:food_id", async (req, res) => {
-  // const findRest = await restaurant.findById(req.params.id);
-  const findFood = await food.findById(req.params.food_id);
-  const newfood = req.body;
-  const updatedFood = await food.findByIdAndUpdate(findFood, newfood);
-  console.log(newfood);
-  res.send("You have reached edit Food post route");
-});
+router.post(
+  "/:id/editFood/:food_id",
+  wrapperFn(async (req, res) => {
+    // const findRest = await restaurant.findById(req.params.id);
+    const findFood = await food.findById(req.params.food_id);
+    const newfood = req.body;
+    const updatedFood = await food.findByIdAndUpdate(findFood, newfood);
+    console.log(newfood);
+    res.send("You have reached edit Food post route");
+  })
+);
 
 router.post("/");
 
-router.delete("/:id/foods/:food_id", async (req, res) => {
-  const findRest = await restaurant.findById(req.params.id);
-  const deletedFood = await food.deleteOne({ _id: req.params.food_id });
-  const index = findRest.foods.length;
-  if (index > -1) {
-    findRest.foods.pull(req.params.food_id);
-    findRest.save();
-  }
-  console.log(deletedFood);
-  res.redirect(`/restaurants/${req.params.id}`);
-});
+router.delete(
+  "/:id/foods/:food_id",
+  wrapperFn(async (req, res) => {
+    const findRest = await restaurant.findById(req.params.id);
+    const deletedFood = await food.deleteOne({ _id: req.params.food_id });
+    const index = findRest.foods.length;
+    if (index > -1) {
+      findRest.foods.pull(req.params.food_id);
+      findRest.save();
+    }
+    console.log(deletedFood);
+    res.redirect(`/restaurants/${req.params.id}`);
+  })
+);
 
 module.exports = router;

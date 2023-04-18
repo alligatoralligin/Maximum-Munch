@@ -4,48 +4,51 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Edit Restaurant</title>
     <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
+    <link rel="stylesheet" href="/stylesheets/editPage.css" />
   </head>
   <body>
     <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
-    <form action="/restaurants/<%=findRest._id %>" method="post">
-      <img src="<%=findRest.icon%>" alt="Restaurant Icon" />
-      <br />
-      <label for="icon">Restaurant icon</label> <br />
-      <input type="text" id="icon" name="icon" /><br />
-      <h3>Restaurant Icon</h3>
-      <label for="photo">Restaurant Photo</label> <br />
-      <input type="text" id="photo" name="photo" /><br />
-      <label for="name">Restaurant Name</label> <br />
-      <input
-        type="text"
-        id="name"
-        name="name"
-        value="<%=findRest.name %>"
-      /><br />
-      <label for="location">location</label><br />
-      <input
-        type="text"
-        id="location"
-        name="location"
-        value="<%=findRest.location %> "
-      /><br />
-      <label for="cuisine">speciality</label><br />
-      <input
-        type="text"
-        id="cuisine"
-        name="cuisine"
-        value="<%=findRest.speciality%>"
-      /><br />
-      <button>submit</button>
-    </form>
-    <h3>Current food selections</h3>
-    <%=findRest.foods%>
+    <div class="container">
+      <form action="/restaurants/<%=findRest._id %>" method="post">
+        <img src="<%=findRest.icon%>" alt="Restaurant Icon" />
+        <br />
+        <label for="icon">Restaurant icon</label> <br />
+        <input type="text" id="icon" name="icon" /><br />
+        <h3>Restaurant Icon</h3>
+        <label for="photo">Restaurant Photo</label> <br />
+        <input type="text" id="photo" name="photo" /><br />
+        <label for="name">Restaurant Name</label> <br />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="<%=findRest.name %>"
+        /><br />
+        <label for="location">location</label><br />
+        <input
+          type="text"
+          id="location"
+          name="location"
+          value="<%=findRest.location %> "
+        /><br />
+        <label for="cuisine">speciality</label><br />
+        <input
+          type="text"
+          id="cuisine"
+          name="cuisine"
+          value="<%=findRest.speciality%>"
+        /><br />
+        <button>submit</button>
+      </form>
+      <h3>Current food selections</h3>
+      <%=findRest.foods%>
 
-    <form action="/restaurants/<%=findRest._id %>">
-      <button>back to showpage</button>
-    </form>
+      <form action="/restaurants/<%=findRest._id %>">
+        <button>back to showpage</button>
+      </form>
+    </div>
     <%- include('/Users/Alex/MaximumMunch/views/partials/scripts.ejs') %>
   </body>
 </html>

@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+const session = require("express-session");
+const flash = require("connect-flash");
 const mongoose = require("mongoose");
 const carouselCuisineList = require("./categoryData/carouselImages");
 const { restaurant } = require("./Schemas/restaurantSchema");
@@ -10,18 +12,17 @@ const methodOverride = require("method-override");
 const restaurantsRouter = require("./routes/restaurants");
 const ownerRouter = require("./routes/owner");
 const cuisineRouter = require("./routes/cuisine");
-const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const isLoggedin = require("./Middleware/isLoggedin.js");
 const isOwner = require("./Middleware/isOwner.js");
-const flash = require("connect-flash");
 const app = express();
 const engine = require("ejs-mate");
 const ErrorHandler = require("./Errorhandler/Errorhandler");
 const jsonParser = bodyParser.json();
 // const wrapperFn = require("./HelperFn/tryCatch");
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
+let DATABASE_URL;
 const sess = {
   secret: "prettyterriblesecret",
   proxy: true,
@@ -63,6 +64,8 @@ app.use(function (req, res, next) {
   res.locals.checkoutTotal = req.session.total;
   res.locals.totalQuantity = req.session.totalQty;
   res.locals.cuisineList = carouselCuisineList.carouselCuisineList;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
 });
 
@@ -73,7 +76,10 @@ app.use("/cuisine", cuisineRouter);
 app.use(ErrorHandler);
 
 mongoose
-  .connect("mongodb://localhost:27017/MaximumMunch", { useNewUrlParser: true })
+  .connect(
+    process.env.DATABASE_URL || "mongodb://localhost:27017/MaximumMunch",
+    { useNewUrlParser: true }
+  )
   .then(() => {
     console.log("open connection");
   })
@@ -97,19 +103,13 @@ mongoose
 //     };
 //   }
 
-app.get("/flash", function (req, res) {
-  // Set a flash message by passing the key, followed by the value, to req.flash().
-  req.flash("info", "Flash is back!");
-  res.redirect("/");
-});
-
 app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
-app.get("/home", function (req, res) {
+app.get("/home", async function (req, res) {
   console.log(carouselCuisineList.carouselCuisineList);
-  res.render("home.ejs", { messages: req.flash("info") });
+  res.render("home.ejs");
 });
 
 app.get("/index", async (req, res) => {
@@ -208,13 +208,17 @@ app.get("/login", async (req, res) => {
 
 app.post(
   "/login",
-  passport.authenticate("local", { failureRedirect: "/login" }),
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failureFlash: true,
+  }),
   async (req, res) => {
     const foundUser = await user.findOne({ username: req.body.username });
     req.session.username = req.body.username;
     if (foundUser.Owner === true) {
       req.session.owner = true;
     }
+    req.flash("success", "you've logged in");
     console.log("you have logged in");
     res.redirect("/index");
   }

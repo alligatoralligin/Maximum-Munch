@@ -4,25 +4,41 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/addFood.css" />
     <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
     <title>Add Food here</title>
   </head>
   <body>
     <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
-    <h1>Add a food object here</h1>
-    <form action="/restaurants/<%=findRest._id %>/addFood" method="post">
-      <label for="name">Food Name</label><br />
-      <input type="text" id="fname" name="name" /><br />
-      <label for="price">Price</label><br />
-      <input type="number" id="fprice" name="price" step="any" /><br />
-      <label for="Cuisine">Cuisine</label><br />
-      <input type="text" id="Cuisine" name="Cuisine" /><br />
-      <label for="foodCategory">Add foodCategory here</label><br />
-      <input type="text" id="foodCategory" name="foodCategory" /><br />
-      <label for="foodPhoto">Add photo here</label><br />
-      <input type="text" id="foodPhoto" name="foodPhoto" /><br />
-      <button>submit</button>
-    </form>
+    <div class="row">
+      <div class="col">
+        <div class="newFoodForm">
+          <h1 class="formHeader">Add a food item to your Menu</h1>
+          <form action="/restaurants/<%=findRest._id %>/addFood" method="post">
+            <label for="name">Food Name</label><br />
+            <input type="text" id="fname" name="name" /><br />
+            <label for="price">Price</label><br />
+            <input type="number" id="fprice" name="price" step="any" /><br />
+            <label for="Cuisine">Cuisine</label><br />
+            <input type="text" id="Cuisine" name="Cuisine" /><br />
+            <label for="foodCategory">Add Category here</label><br />
+            <input type="text" id="foodCategory" name="foodCategory" /><br />
+            <label for="foodPhoto">Add photo link here</label><br />
+            <input type="text" id="foodPhoto" name="foodPhoto" /><br />
+            <br />
+            <button>submit</button>
+          </form>
+        </div>
+      </div>
+      <div class="col">
+        <img
+          class="half-screen-image"
+          src="https://images.unsplash.com/photo-1641824780302-d918ddc3ba08?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1760&q=80"
+          alt="food image"
+        />
+      </div>
+    </div>
+
     <%- include('/Users/Alex/MaximumMunch/views/partials/scripts.ejs') %>
   </body>
 </html>
