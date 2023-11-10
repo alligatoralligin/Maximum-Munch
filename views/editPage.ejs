@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit Restaurant</title>
-    <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
+    <%- include('../views/partials/head.ejs') %>
     <link rel="stylesheet" href="/stylesheets/editPage.css" />
   </head>
   <body>
-    <%- include('./views/partials/navbar.ejs') %>
+    <%- include('../views/partials/navbar.ejs') %>
     <div class="container">
       <form action="/restaurants/<%=findRest._id %>" method="post">
         <img src="<%=findRest.icon%>" alt="Restaurant Icon" />
@@ -49,6 +49,6 @@
         <button>back to showpage</button>
       </form>
     </div>
-    <%- include('/Users/Alex/MaximumMunch/views/partials/scripts.ejs') %>
+    <%- include('../views/partials/scripts.ejs') %>
   </body>
 </html>

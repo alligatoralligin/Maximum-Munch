@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Index</title>
-    <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
+    <%- include('../views/partials/head.ejs') %>
   </head>
   <body>
     <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
@@ -15,7 +15,6 @@
       ><%=restaurants[restaurant].name%></a
     >
     <br />
-    <% } %> <%- include('/Users/Alex/MaximumMunch/views/partials/scripts.ejs')
-    %>
+    <% } %> <%- include('../views/partials/scripts.ejs') %>
   </body>
 </html>

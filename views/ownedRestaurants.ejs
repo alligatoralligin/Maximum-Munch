@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include('/Users/Alex/MaximumMunch/views/partials/head.ejs') %>
+    <%- include('../views/partials/head.ejs') %>
     <link rel="stylesheet" href="/stylesheets/ownedRest.css" />
   </head>
   <body>
-    <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %> <%
-    for(let rest of ownedRest.restOwned) {%>
+    <%- include('../views/partials/navbar.ejs') %> <% for(let rest of
+    ownedRest.restOwned) {%>
     <div class="container">
       <a href="/restaurants/<%=rest.id%>">
         <div class="card mb-3">
@@ -19,6 +19,6 @@
       </a>
     </div>
     <p><% } %></p>
-    <%- include('/Users/Alex/MaximumMunch/views/partials/scripts.ejs') %>
+    <%- include('../views/partials/scripts.ejs') %>
   </body>
 </html>
