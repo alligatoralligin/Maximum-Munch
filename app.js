@@ -92,11 +92,11 @@ mongoose
     console.log("error");
   });
 
-// app.get("/", function (req, res) {
-//   res.redirect("home.ejs");
-// });
-
 app.get("/", async function (req, res) {
+  res.render("home.ejs");
+});
+
+app.get("/home", async function (req, res) {
   console.log(carouselCuisineList.carouselCuisineList);
   res.render("home.ejs");
 });
