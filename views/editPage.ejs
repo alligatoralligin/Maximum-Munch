@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/stylesheets/editPage.css" />
   </head>
   <body>
-    <%- include('/Users/Alex/MaximumMunch/views/partials/navbar.ejs') %>
+    <%- include('./views/partials/navbar.ejs') %>
     <div class="container">
       <form action="/restaurants/<%=findRest._id %>" method="post">
         <img src="<%=findRest.icon%>" alt="Restaurant Icon" />
