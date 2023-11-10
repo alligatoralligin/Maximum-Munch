@@ -93,7 +93,7 @@ mongoose
   });
 
 app.get("/", function (req, res) {
-  res.redirect("/home");
+  res.redirect("/home.ejs");
 });
 
 app.get("/home", async function (req, res) {
