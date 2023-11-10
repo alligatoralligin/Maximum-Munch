@@ -104,7 +104,7 @@ async function newRest() {
       location: faker.address.cityName(),
       speciality: randomize(specialityList),
       rating: Math.floor(Math.random() * 5 + 1),
-      photo: faker.image.imageUrl(640, 480, "business", true),
+      photo: faker.image.city(640, 500, true),
     });
     for (let x = 0; x < 25; x++) {
       const createFood = await food.create({

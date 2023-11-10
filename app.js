@@ -19,11 +19,14 @@ const isOwner = require("./Middleware/isOwner.js");
 const app = express();
 const engine = require("ejs-mate");
 const ErrorHandler = require("./Errorhandler/Errorhandler");
+const mongoSanitize = require("express-mongo-sanitize");
 const jsonParser = bodyParser.json();
 // const wrapperFn = require("./HelperFn/tryCatch");
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
+require("dotenv").config();
 let DATABASE_URL;
 const sess = {
+  name: "session",
   secret: "prettyterriblesecret",
   proxy: true,
   resave: false,
@@ -49,6 +52,8 @@ app.use(urlencodedParser);
 
 app.use(session(sess));
 app.use(flash());
+
+app.use(mongoSanitize());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -87,24 +92,8 @@ mongoose
     console.log("error");
   });
 
-// function wrapperFn(fn) {
-//   return function (req, res, next) {
-//     try {
-//       fn(req, res, next);
-//     } catch (error) {
-//       next(error);
-//     }
-//   };
-// }
-// function wrapperFn(fn) {
-//   {
-//     return function (req, res, next) {
-//       fn(req, res, next).catch((e) => next(e));
-//     };
-//   }
-
 app.get("/", function (req, res) {
-  res.send("Hello World");
+  res.redirect("/home");
 });
 
 app.get("/home", async function (req, res) {
@@ -124,14 +113,6 @@ app.get("/index", async (req, res) => {
   res.render("index.ejs", { restaurants, randomId });
 });
 
-// app.get("/restaurants/:id", async (req, res) => {
-//   const findRest = await restaurant.findById(req.params.id);
-//   if (findRest.foods.length > 0) {
-//     const foodList = await findRest.populate("foods");
-//   }
-//   res.render("userShowPage.ejs", { findRest });
-// });
-
 app.get("/myRestaurantPage/:id", isLoggedin, async (req, res) => {
   if (!req.session.owner) {
     res.redirect("/login");
@@ -140,62 +121,6 @@ app.get("/myRestaurantPage/:id", isLoggedin, async (req, res) => {
   const findRest = await restaurant.findById(req.params.id);
   res.render("ownerShowPage.ejs", { findRest });
 });
-// // app.get("/restaurants/:id/edit", async (req, res) => {
-// //   const findRest = await restaurant.findById(req.params.id);
-// //   res.render("editPage.ejs", { findRest });
-// // });
-
-// // app.get("/restaurants/:id/addFood", async (req, res) => {
-// //   const findRest = await restaurant.findById(req.params.id);
-// //   res.render("addFood.ejs", { findRest });
-// // });
-
-// app.post(
-//   "/restaurants/:id/addFood",
-//   wrapperFn(async (req, res, next) => {
-//     const findRest = await restaurant.findById(req.params.id);
-//     const newFood = req.body;
-//     if (!req.body.name) {
-//       throw new Error("There is no name to your food item");
-//     }
-//     const createFood = await food.create(newFood);
-//     findRest.foods.push(createFood._id);
-//     await findRest.save();
-//     res.redirect(`/restaurants/${req.params.id}`);
-//   })
-// );
-
-// app.post("/restaurants/:id", async (req, res) => {
-//   const findRest = await restaurant.findByIdAndUpdate(req.params.id, req.body);
-//   res.redirect(`/restaurants/${req.params.id}`);
-// });
-
-// app.get("/restaurants/:id/editFood/:food_id", async (req, res) => {
-//   const findRest = await restaurant.findById(req.params.id);
-//   const findFood = await food.findById(req.params.food_id);
-//   res.render("editFood.ejs", { findFood, findRest });
-// });
-
-// app.post("/restaurants/:id/editFood/:food_id", async (req, res) => {
-//   // const findRest = await restaurant.findById(req.params.id);
-//   const findFood = await food.findById(req.params.food_id);
-//   const newfood = req.body;
-//   const updatedFood = await food.findByIdAndUpdate(findFood, newfood);
-//   console.log(newfood);
-//   res.send("You have reached editFood post route");
-// });
-
-// app.delete("/restaurants/:id/foods/:food_id", async (req, res) => {
-//   const findRest = await restaurant.findById(req.params.id);
-//   const deletedFood = await food.deleteOne({ _id: req.params.food_id });
-//   const index = findRest.foods.length;
-//   if (index > -1) {
-//     findRest.foods.pull(req.params.food_id);
-//     findRest.save();
-//   }
-//   console.log(deletedFood);
-//   res.redirect(`/restaurants/${req.params.id}`);
-// });
 
 app.get("/home", async (req, res) => {
   res.render("home.ejs");
@@ -240,12 +165,7 @@ app.post("/register", async (req, res) => {
       }
     }
   );
-  // const hashPassword = await bcrypt.hash(password, saltRounds);
-  // const newUser = await user.create({
-  //   username: username,
-  //   password: hashPassword,
-  // });
-  // console.log(newUser);
+
   console.log("user registered");
   // ----------------Need to add popup flash message------------------
   res.redirect("/index");
@@ -256,54 +176,12 @@ app.get("/logout", async (req, res, next) => {
     if (err) {
       return next(err);
     }
-    // req.session.owner = false;
-    // req.session.username = null;
     req.session.destroy();
     console.log("You have logged out");
     res.redirect("/home");
   });
 });
 
-// app.get("/Owner/Register", async (req, res) => {
-//   res.render("newOwner.ejs");
-// });
-
-// app.post("/Owner/Register", async (req, res) => {
-//   const username = req.body.username;
-//   const password = req.body.password;
-//   restOwner.register(
-//     new restOwner({ username: req.body.username, Owner: true }),
-//     password,
-//     function (err) {
-//       if (err) {
-//         console.log("error while user register!", err);
-//         return next(err);
-//       }
-//     }
-//   );
-//   console.log("owner registered");
-//   res.send("new owner account created");
-// });
-
-// app.get("/Owner/Login", async (req, res) => {
-//   res.render("ownerLogin.ejs");
-// });
-
-// app.post(
-//   "/Owner/Login",
-//   passport.authenticate("local", { failureRedirect: "/ownerLogin" }),
-//   async (req, res) => {
-//     const foundUser = await user.findOne({ username: req.body.username });
-//     if (foundUser.Owner) {
-//       req.session.owner = true;
-//     }
-//     console.log(foundUser);
-//     console.log("you have logged in as a restaurant owner!");
-//     res.redirect("/index");
-//   }
-// );
-
-// ******using get route in order to fit increase and decrease quantity into one page without using multiple forms
 app.get("/foodCart/:id/addfood", isLoggedin, async (req, res) => {
   if (!req.session.total) {
     req.session.total = 0;
@@ -417,22 +295,6 @@ app.post("/foodCart/:id", isLoggedin, async (req, res) => {
       }
     });
   }
-  // if (idCheck === true) {
-  //   req.session.cart.forEach((element, index, array) => {});
-  // }
-
-  // if (!req.session.populatedCart) {
-  //   req.session.populatedCart = [];
-  // }
-  // for (let ids = 0; ids < req.session.cart.length; ids++) {
-  //   const results = await food
-  //     .find({ _id: req.session.cart[ids] })
-  //     .select({ name: 1, _id: 0, price: 1 });
-  //   if (!req.session.populatedCart.includes(req.session.cart[ids])) {
-  //     req.session.populatedCart.push(results);
-  //   }
-  // }
-  // console.log(req.session.populatedCart);
 
   console.log(req.session.cart);
   res.status(204).send();
