@@ -96,7 +96,7 @@
           </div>
         </div>
       <div class="col-6" id="loginSection">
-        <%=error%> 
+    
         <form action="/login" method="post" id="loginBox">
           <div class="form-group">
             <h2>Log in to your account here</h2>
@@ -104,6 +104,17 @@
             <input type="text" id="username" name="username" /><br />
             <label for="password">password</label><br />
             <input type="password" id="password" name="password" /><br />
+            <br>
+           
+          <%if(Object.keys(error).length>0){%>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%=error%>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+          </div>
+          <%}%>
+          
             <br>
             <button class="btn btn-dark btn-lg">Sign in </button>
           </div>

@@ -71,6 +71,7 @@ app.use(function (req, res, next) {
   res.locals.cuisineList = carouselCuisineList.carouselCuisineList;
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
+
   next();
 });
 
@@ -152,23 +153,24 @@ app.post(
 app.get("/register", async (req, res) => {
   res.render("newUser.ejs");
 });
-app.post("/register", async (req, res) => {
+app.post("/register", async (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   user.register(
     new user({ username: req.body.username }),
     password,
+
     function (err) {
       if (err) {
-        console.log("error while user register!", err);
-        return next(err);
+        res.render("newUser.ejs", { error: err.message });
+      } else {
+        res.redirect("/index");
+        console.log("user registered");
       }
     }
   );
 
-  console.log("user registered");
   // ----------------Need to add popup flash message------------------
-  res.redirect("/index");
 });
 
 app.get("/logout", async (req, res, next) => {

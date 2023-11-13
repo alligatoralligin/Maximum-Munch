@@ -26,6 +26,10 @@
   width:100%
   
 }
+.alert{
+  width: 20%;
+}
+
 /* #carouselExampleCaptions {
   max-width: 100%;
   max-height: 100%;

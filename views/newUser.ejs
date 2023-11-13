@@ -23,6 +23,23 @@
               <label for="password">Password</label><br />
               <input type="password" id="password" name="password" /><br />
               <br />
+              <%if (Object.keys(error).length>0) {%>
+              <div
+                class="alert alert-danger alert-dismissible fade show"
+                role="alert"
+              >
+                <%=error%>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <%}%>
+              <br />
               <button class="btn btn-dark btn-sm">Register</button>
             </form>
           </div>
