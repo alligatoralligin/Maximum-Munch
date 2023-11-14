@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const session = require("express-session");
 const flash = require("connect-flash");
+const MongoStore = require("connect-mongo");
 const mongoose = require("mongoose");
 const carouselCuisineList = require("./categoryData/carouselImages");
 const { restaurant } = require("./Schemas/restaurantSchema");
@@ -20,31 +21,48 @@ const app = express();
 const engine = require("ejs-mate");
 const ErrorHandler = require("./Errorhandler/Errorhandler");
 const mongoSanitize = require("express-mongo-sanitize");
-const MongoStore = require("connect-mongo");
 const jsonParser = bodyParser.json();
 // const wrapperFn = require("./HelperFn/tryCatch");
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 require("dotenv").config();
 let DATABASE_URI;
 let SESSION_KEY;
+
+mongoose.set("strictQuery", false);
+const mongoDBConnection = mongoose
+  .connect(
+    process.env.DATABASE_URI || "mongodb://localhost:27017/MaximumMunch",
+    { useNewUrlParser: true }
+  )
+  .then((m) => {
+    return m.connection.getClient();
+    console.log("open connection");
+  })
+  .catch(() => {
+    console.log("error");
+  });
+
+const store = MongoStore.create({
+  client: mongoDBConnection,
+  dbName: "MaximumMunch-Sessions",
+  stringify: false,
+  ttl: 14 * 24 * 60 * 60,
+  autoRemove: "native",
+});
+
 const sess = {
   name: "session",
-  secret: process.env.SESSION_KEY,
+  secret: process.env.SESSION_KEY || "averyterriblesecret",
   proxy: true,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 4 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
-  store: new MongoStore({
-    url: process.env.DATABASE_URI,
-    ttl: 14 * 24 * 60 * 60,
-    autoRemove: "native",
-  }),
+  store: store,
 };
-
 app.use(methodOverride("_method"));
 
 app.engine("ejs", engine);
@@ -87,18 +105,6 @@ app.use("/restaurants", restaurantsRouter);
 app.use("/Owner", ownerRouter);
 app.use("/cuisine", cuisineRouter);
 app.use(ErrorHandler);
-
-mongoose
-  .connect(
-    process.env.DATABASE_URI || "mongodb://localhost:27017/MaximumMunch",
-    { useNewUrlParser: true }
-  )
-  .then(() => {
-    console.log("open connection");
-  })
-  .catch(() => {
-    console.log("error");
-  });
 
 app.get("/", async function (req, res) {
   res.render("home.ejs");
