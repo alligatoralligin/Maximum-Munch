@@ -20,22 +20,29 @@ const app = express();
 const engine = require("ejs-mate");
 const ErrorHandler = require("./Errorhandler/Errorhandler");
 const mongoSanitize = require("express-mongo-sanitize");
+const MongoStore = require("connect-mongo");
 const jsonParser = bodyParser.json();
 // const wrapperFn = require("./HelperFn/tryCatch");
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 require("dotenv").config();
-let DATABASE_URL;
+let DATABASE_URI;
+let SESSION_KEY;
 const sess = {
   name: "session",
-  secret: "prettyterriblesecret",
+  secret: process.env.SESSION_KEY,
   proxy: true,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
     httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 4 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
+  store: new MongoStore({
+    url: process.env.DATABASE_URI,
+    ttl: 14 * 24 * 60 * 60,
+    autoRemove: "native",
+  }),
 };
 
 app.use(methodOverride("_method"));
@@ -83,7 +90,7 @@ app.use(ErrorHandler);
 
 mongoose
   .connect(
-    process.env.DATABASE_URL || "mongodb://localhost:27017/MaximumMunch",
+    process.env.DATABASE_URI || "mongodb://localhost:27017/MaximumMunch",
     { useNewUrlParser: true }
   )
   .then(() => {
@@ -164,7 +171,7 @@ app.post("/register", async (req, res, next) => {
       if (err) {
         res.render("newUser.ejs", { error: err.message });
       } else {
-        res.redirect("/index");
+        res.redirect("/login");
         console.log("user registered");
       }
     }
